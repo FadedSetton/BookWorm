@@ -37,3 +37,21 @@ export const signToken = (username: string, email: string, _id: unknown) => {
 
   return jwt.sign(payload, secretKey, { expiresIn: '1h' });
 };
+
+export const authenticateTokenContext = async ({ req }: { req: Request }) => {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.split(' ')[1];
+  const secretKey = process.env.JWT_SECRET_KEY || '';
+
+  if (!token){
+    return { user: null };
+  }
+
+  try{
+    const decode = jwt.verify(token,secretKey)
+    return { user: decode };
+  }catch(err){
+    console.error('GraphQl Auth Error', err);
+    return { user: null };
+  }
+}
