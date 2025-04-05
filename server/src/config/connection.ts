@@ -1,5 +1,17 @@
 import mongoose from 'mongoose';
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/googlebooks');
+const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/googlebooks';
 
-export default mongoose.connection;
+mongoose.connect(uri);
+
+const db = mongoose.connection;
+
+db.on('connected', () => {
+  console.log('✅ MongoDB connected at', uri);
+});
+
+db.on('error', (err) => {
+  console.error('❌ MongoDB connection error:', err.message);
+});
+
+export default db;
