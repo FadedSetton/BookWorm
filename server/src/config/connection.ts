@@ -7,11 +7,11 @@ mongoose.connect(uri);
 const db = mongoose.connection;
 
 db.on('connected', () => {
-  console.log('✅ MongoDB connected at', uri);
+  console.log('MongoDB connected at', uri);
 });
 
 db.on('error', (err) => {
-  console.error('❌ MongoDB connection error:', err.message);
+  console.error('MongoDB connection error:', err.message);
 });
 
 export default db;
